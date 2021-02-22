@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_complete_guide/question.dart';
+// can also be written
+// import './question.dart';
+
 // void main() => runApp(MyApp());
 void main() {
   runApp(MyApp());
@@ -8,18 +12,21 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 
 }
-class MyAppState extends State<MyApp> {
-  var questionIndex = 0;
 
-  void answerQuestion(){
+// the leading _ means that this class can only be used from this class
+// turns class from public to private
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+
+  void _answerQuestion(){
     setState(() {
-      questionIndex = questionIndex +1;
+      _questionIndex = _questionIndex +1;
     });
-    print(questionIndex);
+    print(_questionIndex);
   }
 
   @override
@@ -36,10 +43,10 @@ class MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text(questions[questionIndex]),
+            Question(questions[_questionIndex]),
             RaisedButton(
               child: Text('Answer 1'),
-              onPressed: answerQuestion, //null would disable the button
+              onPressed: _answerQuestion, //null would disable the button
             ),
             RaisedButton(
               child: Text('Answer 2'),
