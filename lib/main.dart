@@ -8,13 +8,33 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // home is the core widget
+    var questions = [
+      'What\'s your favorite color?',
+      'What\'s your favorite animal?'
+    ];
     return MaterialApp(
       home: Scaffold(
+        // home is the core widget
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Text('This is the default text!'),
+        body: Column(
+          children: [
+            Text('this is the question'),
+            RaisedButton(
+              child: Text('Answer 1'),
+              onPressed: null, //null would disable the button
+            ),
+            RaisedButton(
+              child: Text('Answer 2'),
+              onPressed: null,
+            ),
+            RaisedButton(
+              child: Text('Answer 3'),
+              onPressed: null,
+            ),
+          ],
+        ),
       ),
     );
   }
