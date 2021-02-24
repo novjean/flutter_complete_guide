@@ -19,8 +19,8 @@ class Quiz extends StatelessWidget {
         ),
         // spread operator doesn't add a list to a list, but we add the
         // values of a list to a list
-        ...(questions[questionIndex]['answers'] as List<String>).map((answer) {
-          return Answer(answerQuestion, answer);
+        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).map((answer) {
+          return Answer(() => answerQuestion(answer['score']), answer['text']);
         }).toList()
       ],
     );

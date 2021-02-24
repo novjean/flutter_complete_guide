@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/answer.dart';
 
-import 'package:flutter_complete_guide/question.dart';
 import 'package:flutter_complete_guide/quiz.dart';
 import 'package:flutter_complete_guide/result.dart';
 
@@ -24,30 +22,47 @@ class MyApp extends StatefulWidget {
 // turns class from public to private
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
 
   final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
-      'answers': ['Black', 'Red', 'Green', 'White']
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1}
+      ]
     },
     {
       'questionText': 'What\'s your favorite animal?',
-      'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+      'answers': [
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9}
+      ]
     },
     {
       'questionText': 'Which city is the best?',
-      'answers': ['Paris', 'Bombay', 'Toronto']
+      'answers': [
+        {'text': 'Paris', 'score': 1},
+        {'text': 'Bombay', 'score': 1},
+        {'text': 'Toronto', 'score': 1},
+      ]
     },
   ];
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
     print(_questionIndex);
 
     if (_questionIndex < _questions.length) {
-      print('we have more questions');
+      print('Score ' + _totalScore.toString());
     }
   }
 
@@ -61,7 +76,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: _questionIndex < _questions.length
             ? Quiz(_answerQuestion, _questions, _questionIndex)
-            : Result(),
+            : Result(_totalScore),
       ),
     );
   }
