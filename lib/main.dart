@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/answer.dart';
 
 import 'package:flutter_complete_guide/question.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 
 // can also be written
 // import './question.dart';
@@ -23,47 +25,43 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
+  final _questions = const [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': ['Black', 'Red', 'Green', 'White']
+    },
+    {
+      'questionText': 'What\'s your favorite animal?',
+      'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+    },
+    {
+      'questionText': 'Which city is the best?',
+      'answers': ['Paris', 'Bombay', 'Toronto']
+    },
+  ];
+
   void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
     print(_questionIndex);
+
+    if (_questionIndex < _questions.length) {
+      print('we have more questions');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = const [
-      {
-        'questionText': 'What\'s your favorite color?',
-        'answers': ['Black', 'Red', 'Green', 'White']
-      },
-      {
-        'questionText': 'What\'s your favorite animal?',
-        'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
-      },
-      {
-        'questionText': 'Which city is the best?',
-        'answers': ['Paris', 'Bombay', 'Toronto']
-      },
-    ];
-    
     return MaterialApp(
       home: Scaffold(
         // home is the core widget
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]['questionText'], //accessing the question for the index
-            ),
-            // spread operator doesn't add a list to a list, but we add the
-            // values of a list to a list
-            ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(_answerQuestion, _questions, _questionIndex)
+            : Result(),
       ),
     );
   }
