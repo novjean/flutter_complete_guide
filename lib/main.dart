@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/answer.dart';
 
 import 'package:flutter_complete_guide/question.dart';
+
 // can also be written
 // import './question.dart';
 
@@ -14,7 +16,6 @@ class MyApp extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _MyAppState();
   }
-
 }
 
 // the leading _ means that this class can only be used from this class
@@ -22,19 +23,30 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
-  void _answerQuestion(){
+  void _answerQuestion() {
     setState(() {
-      _questionIndex = _questionIndex +1;
+      _questionIndex = _questionIndex + 1;
     });
     print(_questionIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal?'
+    var questions = const [
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': ['Black', 'Red', 'Green', 'White']
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+      },
+      {
+        'questionText': 'Which city is the best?',
+        'answers': ['Paris', 'Bombay', 'Toronto']
+      },
     ];
+    
     return MaterialApp(
       home: Scaffold(
         // home is the core widget
@@ -43,21 +55,13 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Question(questions[_questionIndex]),
-            RaisedButton(
-              child: Text('Answer 1'),
-              onPressed: _answerQuestion, //null would disable the button
+            Question(questions[_questionIndex]['questionText'], //accessing the question for the index
             ),
-            RaisedButton(
-              child: Text('Answer 2'),
-              onPressed: () => print('Answer 2 chosen!'),
-            ),
-            RaisedButton(
-              child: Text('Answer 3'),
-              onPressed: () {
-                print('Answer 3 chosen!');
-              },
-            ),
+            // spread operator doesn't add a list to a list, but we add the
+            // values of a list to a list
+            ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
